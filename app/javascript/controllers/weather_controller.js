@@ -2,10 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 import { main } from "@popperjs/core";
 
 const baseMapboxUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
-const mapboxKey = "pk.eyJ1IjoiamFkZWNhdGhsZWVuIiwiYSI6ImNrdmNlbTVuZzA1MHkydW4zMnNjbnkyeXYifQ.YRpgYnQ56ZJE8D2h9BSp0g"
+const mapboxKey = "1"
 
 const baseWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?"
-const weatherKey = "332e2598be279e1cb6f27010cc70094c";
+const weatherKey = "1";
 
 // const getWeather = (data) => {
 //   const latitude = data["features"][0]["geometry"]["coordinates"][1];
