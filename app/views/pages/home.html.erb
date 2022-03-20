@@ -1,20 +1,20 @@
-    <div class="container" data-controller="hello">
+    <div class="container" data-controller="weather">
       <div class="row justify-content-center">
         <div class="col-sm-8">
           <h1 class="text-center mt-4">WeatherApp</h1>
           <form class="d-flex my-5">
-            <input type="text" placeholder="Enter city" class='form-control flex-grow-1'>
-            <input type="submit" value="Get the weather" class="btn btn-primary ms-3">
+            <input type="text" placeholder="Enter city" class='form-control flex-grow-1' data-weather-target='form'>
+            <input type="submit" value="Get the weather" class="btn btn-primary ms-3"data-action="click->weather#coordinates">
           </form>
           <div class="card mt-4 mb-5">
             <div class="card-body">
-              <h1>Weather in <span> <!-- TODO: CITY NAME --> </span></h1>
+              <h1>Weather in <span data-weather-target="city"> <!-- TODO: CITY NAME --> </span></h1>
               <h3 class="text-secondary"><!-- TODO: DATE --></h3>
               <div>
-                <p><!-- TODO: DESCRIPTION --></p>
+                <p data-weather-target="description"><!-- TODO: DESCRIPTION --></p>
                 <div class="d-flex">
                   <!-- <img src="" alt="Weather Icon"> -->
-                  <h2><!-- TODO: TEMPERATURE --></h2>
+                  <h2 data-weather-target="temperature"><!-- TODO: TEMPERATURE --></h2>
                 </div>
               </div>
             </div>
