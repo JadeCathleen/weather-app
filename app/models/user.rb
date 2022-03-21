@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :username, :first_name, :last_name, presence: true
   validates :username, uniqueness: true
+
+  has_many :cities
 end

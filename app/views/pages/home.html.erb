@@ -17,6 +17,11 @@
                   <h2 data-weather-target="temperature"><!-- TEMPERATURE --></h2>
                 </div>
               </div>
+              <% if user_signed_in? %>
+                <button data-action="click->weather#selectCity">
+                  Add this city to your dashboard
+                </button>
+              <% end %>
             </div>
           </div>
         </div>

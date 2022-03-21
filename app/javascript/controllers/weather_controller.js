@@ -50,7 +50,19 @@ export default class extends Controller {
     } else {
       this.cardTarget.classList.add("invisible");
     };
-    this.formTarget.value = "";
+    // this.formTarget.value = "";
   }
 
+  selectCity() {
+    const cityName = this.formTarget.value;
+    const url = '/cities';
+    let formData = new FormData();
+    formData.append("city_name", cityName);
+    console.log(formData.entries());
+    fetch(url, {
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+    // .then(data => console.log(data))
+  }
 }
