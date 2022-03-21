@@ -1,0 +1,25 @@
+<h2>My saved cities</h2>
+<h4>Weather on <%= Time.now.strftime('%a %d %b %Y at %k:%M') %></h4>
+
+<div class="container" data-controller="weather" data-weather-mapbox-key-value="<%=ENV['MAPBOX_KEY']%>" data-weather-open-key-value="<%=ENV['OPEN_WEATHER_KEY']%>">
+  <button data-action="click->weather#displayInformation">Display info</button>
+  <div class="row justify-content-center">
+    <div class="col-sm-8">
+      <% @cities.each do |city| %>
+        <div class="card mt-4 mb-5" data-weather-target='card'>
+          <div class="card-body">
+            <h1>Weather in <span data-weather-target='city'><%= city.name %></span></h1>
+            <h3 class="text-secondary"></h3>
+            <div>
+              <p data-weather-target="description"><!-- DESCRIPTION --></p>
+              <div class="d-flex">
+                <img src="" alt="Weather Icon" data-weather-target='icon'>
+                <h2 data-weather-target="temperature"><!-- TEMPERATURE --></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

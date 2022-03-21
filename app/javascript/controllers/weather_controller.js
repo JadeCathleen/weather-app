@@ -18,12 +18,32 @@ const baseWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?"
 // };
 
 export default class extends Controller {
-  static targets = ['form', 'city', 'description', 'temperature', 'icon', 'card']
+  static targets = ['form', 'city', 'description', 'temperature', 'icon', 'card', 'add', 'createForm', 'addButton']
   static values = { mapboxKey: String, openKey: String}
 
   connect() {
-    console.log("Hello from our first Stimulus controller")
+    // console.log("Hello from our first Stimulus controller")
   };
+
+  displayInformation(event) {
+    // console.log("You clicked on Submit !")
+    event.preventDefault();
+    // this.cityTarget.innerHTML = this.formTarget.value;
+    fetch(`${baseMapboxUrl}${this.cityTarget.innerHTML}.json?access_token=${this.mapboxKeyValue}`)
+    .then(response => response.json())
+    .then((data) => {
+        // getWeather(data);
+          const latitude = data["features"][0]["geometry"]["coordinates"][1];
+          const longitude = data["features"][0]["geometry"]["coordinates"][0];
+          fetch(`${baseWeatherUrl}lat=${latitude}&lon=${longitude}&appid=${this.openKeyValue}&units=metric`)
+          .then(response => response.json())
+          .then((data2) => {
+            this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`;
+            this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`;
+            this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`;
+          });
+    });
+  }
 
 
   coordinates(event) {
@@ -39,10 +59,12 @@ export default class extends Controller {
           fetch(`${baseWeatherUrl}lat=${latitude}&lon=${longitude}&appid=${this.openKeyValue}&units=metric`)
           .then(response => response.json())
           .then((data2) => {
-            this.cityTarget.innerHTML = `${data2["name"]}, ${data2["sys"]["country"]}`
-            this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`
-            this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`
-            this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`
+            const cityInfo = `${data2["name"]}, ${data2["sys"]["country"]}`
+            this.cityTarget.innerHTML = cityInfo;
+            this.addTarget.value = cityInfo;
+            this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`;
+            this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`;
+            this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`;
           });
     });
     if (this.formTarget.value !== "") {
@@ -50,19 +72,21 @@ export default class extends Controller {
     } else {
       this.cardTarget.classList.add("invisible");
     };
-    // this.formTarget.value = "";
+    this.formTarget.value = "";
   }
 
   selectCity() {
-    const cityName = this.formTarget.value;
-    const url = '/cities';
-    let formData = new FormData();
-    formData.append("city_name", cityName);
-    console.log(formData.entries());
-    fetch(url, {
-      method: 'POST',
-      body: formData
-    }).then(response => response.json())
+    this.createFormTarget.classList.remove("invisible");
+    this.addButtonTarget.classList.add("invisible");
+    // const cityName = this.formTarget.value;
+    // const url = '/cities';
+    // let formData = new FormData();
+    // formData.append("city_name", cityName);
+    // console.log(formData.entries());
+    // fetch(url, {
+    //   method: 'POST',
+    //   body: formData
+    // }).then(response => response.json())
     // .then(data => console.log(data))
   }
 }

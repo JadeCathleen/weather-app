@@ -18,10 +18,20 @@
                 </div>
               </div>
               <% if user_signed_in? %>
-                <button data-action="click->weather#selectCity">
+                <button data-action="click->weather#selectCity" data-weather-target="addButton">
                   Add this city to your dashboard
                 </button>
               <% end %>
+              <div class="form-create-city invisible" data-weather-target='createForm'>
+                <%= simple_form_for(@city) do |f| %>
+                <div class="input-city">
+                  <%= f.input :name, input_html: { data: { target:'weather.add' } } %>
+                </div>
+                <div class="text-center mt-3">
+                  <%= f.submit 'Save', class: 'btn btn-flat' %>
+                </div>
+              </div>
+            <% end %>
             </div>
           </div>
         </div>
