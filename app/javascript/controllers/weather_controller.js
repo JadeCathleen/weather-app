@@ -18,7 +18,7 @@ const baseWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?"
 // };
 
 export default class extends Controller {
-  static targets = ['form', 'city', 'description', 'temperature']
+  static targets = ['form', 'city', 'description', 'temperature', 'icon', 'card']
   static values = { mapboxKey: String, openKey: String}
 
   connect() {
@@ -42,8 +42,10 @@ export default class extends Controller {
             this.cityTarget.innerHTML = `${data2["name"]}, ${data2["sys"]["country"]}`
             this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`
             this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`
+            this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`
           });
     });
+    this.cardTarget.classList.remove("invisible");
     this.formTarget.value = "";
   }
 
