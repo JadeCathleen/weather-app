@@ -45,7 +45,11 @@ export default class extends Controller {
             this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`
           });
     });
-    this.cardTarget.classList.remove("invisible");
+    if (this.formTarget.value !== "") {
+      this.cardTarget.classList.remove("invisible");
+    } else {
+      this.cardTarget.classList.add("invisible");
+    };
     this.formTarget.value = "";
   }
 
