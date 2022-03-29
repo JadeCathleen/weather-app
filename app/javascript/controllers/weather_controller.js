@@ -45,27 +45,31 @@ export default class extends Controller {
     });
   }
 
+  displayWeather(data2) {
+    const cityInfo = `${data2["name"]}, ${data2["sys"]["country"]}`
+    this.cityTarget.innerHTML = cityInfo;
+    this.addTarget.value = cityInfo;
+    this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`;
+    this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`;
+    this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`;
+  }
+
+  getWeather(data) {
+    const latitude = data["features"][0]["geometry"]["coordinates"][1];
+    const longitude = data["features"][0]["geometry"]["coordinates"][0];
+    fetch(`${baseWeatherUrl}lat=${latitude}&lon=${longitude}&appid=${this.openKeyValue}&units=metric`)
+    .then(response => response.json())
+    .then((data2) => {
+      displayWeather(data2);
+    });
+  }
 
   coordinates(event) {
-    // console.log("You clicked on Submit !")
     event.preventDefault();
-    // this.cityTarget.innerHTML = this.formTarget.value;
     fetch(`${baseMapboxUrl}${this.formTarget.value}.json?access_token=${this.mapboxKeyValue}`)
     .then(response => response.json())
     .then((data) => {
-        // getWeather(data);
-          const latitude = data["features"][0]["geometry"]["coordinates"][1];
-          const longitude = data["features"][0]["geometry"]["coordinates"][0];
-          fetch(`${baseWeatherUrl}lat=${latitude}&lon=${longitude}&appid=${this.openKeyValue}&units=metric`)
-          .then(response => response.json())
-          .then((data2) => {
-            const cityInfo = `${data2["name"]}, ${data2["sys"]["country"]}`
-            this.cityTarget.innerHTML = cityInfo;
-            this.addTarget.value = cityInfo;
-            this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`;
-            this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`;
-            this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`;
-          });
+          getWeather(data);
     });
     if (this.formTarget.value !== "") {
       this.cardTarget.classList.remove("invisible");
