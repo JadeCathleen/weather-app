@@ -51,51 +51,17 @@ export default class extends Controller {
     console.log("Hello from our weather Stimulus controller")
   };
 
-  displayInformation(event) {
-    event.preventDefault();
-    fetch(`${baseMapboxUrl}${this.cityTarget.innerHTML}.json?access_token=${this.mapboxKeyValue}`)
-    .then(response => response.json())
-    .then((data) => {
-          const latitude = data["features"][0]["geometry"]["coordinates"][1];
-          const longitude = data["features"][0]["geometry"]["coordinates"][0];
-          fetch(`${baseWeatherUrl}lat=${latitude}&lon=${longitude}&appid=${this.openKeyValue}&units=metric`)
-          .then(response => response.json())
-          .then((data2) => {
-            this.descriptionTarget.innerHTML = `${data2["weather"][0]["main"]} - ${data2["weather"][0]["description"]}`;
-            this.temperatureTarget.innerHTML = `${Math.round(data2["main"]["temp"])}°C`;
-            this.iconTarget.src = `http://openweathermap.org/img/w/${data2["weather"][0]["icon"]}.png`;
-          });
-    });
-  }
-
-  // urlExists(url) {
-  //       var http = new XMLHttpRequest();
-  //       http.open('HEAD', url, false);
-  //       http.send();
-  //       if (http.status != 404)
-  //           return true;
-  //       else
-  //           return false;
-  //   }
-
-
   getWeather(event) {
     event.preventDefault();
-    const city = this.formTarget.value
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.openKeyValue}&units=metric`
-    // if (urlExists(url)) {
-    fetch(url)
+    const city = this.formTarget.value;
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.openKeyValue}&units=metric`)
     .then(response => response.json())
     .then(data => this.#updateCard(data))
-    // } else {
-    //   console.log('this city does not exist - render flash reflex');
-    // }
-  }
+    }
 
   #updateCard(data) {
     const cityInfo = `${data["name"]}, ${data["sys"]["country"]}`
     this.cityTarget.innerHTML = cityInfo;
-    // this.addTarget.value = cityInfo;
     this.descriptionTarget.innerHTML = `${data["weather"][0]["main"]} - ${data["weather"][0]["description"]}`;
     this.temperatureTarget.innerHTML = `${Math.round(data["main"]["temp"])}°C`;
     this.iconTarget.src = `http://openweathermap.org/img/w/${data["weather"][0]["icon"]}.png`;
