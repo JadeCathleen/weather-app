@@ -8,7 +8,7 @@ export default class extends Controller {
   static values = { openKey: String}
 
   connect() {
-    console.log("Hello from our weather Stimulus controller")
+    // console.log("Hello from our weather Stimulus controller")
   };
 
   getWeather(event) {
@@ -24,17 +24,17 @@ export default class extends Controller {
     this.descriptionTarget.innerHTML = `${data.weather[0].main} - ${data.weather[0].description}`; // replace inner HTML of weather description div
     this.temperatureTarget.innerHTML = `${Math.round(data.main.temp)}°C`; // replace inner HTML of temperature div
     this.iconTarget.src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`; // get the weather icon and display it by adding it to src
-    const today = new Date(); // create an empty Date object
-    const localOffset = data.timezone + today.getTimezoneOffset() * 60
-    const localDate = new Date(today.setUTCSeconds(localOffset))
-    const options = { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }
-    const formattedDate = localDate.toLocaleDateString("en-US", options)
-    this.dateTarget.innerText = formattedDate
+    const today = new Date(); // create a Date object from where and when I am
+    const localOffset = data.timezone + today.getTimezoneOffset() * 60; // get the data timezone (shift in seconds from UTC) and add it to the local timezone in minutes converted in seconds
+    const localDate = new Date(today.setUTCSeconds(localOffset)); // find the date from the shift in seconds from UTC of today date (where and when I am)
+    const options = { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }; // set options for display of the date
+    const formattedDate = localDate.toLocaleDateString("en-US", options); // format the date
+    this.dateTarget.innerText = formattedDate // replace the text of date div by this format date
     if (this.inputTarget.value !== "") {
-      this.cardTarget.classList.remove("invisible");
+      this.cardTarget.classList.remove("invisible"); // if there is something entered in form, the weather card will appear
     } else {
-      this.cardTarget.classList.add("invisible");
+      this.cardTarget.classList.add("invisible"); // it there is nothing entered in form, the weather card will not appear
     };
-    this.inputTarget.value = "";
-  }
+    this.inputTarget.value = ""; // refresh the content of the form
+  };
 }
