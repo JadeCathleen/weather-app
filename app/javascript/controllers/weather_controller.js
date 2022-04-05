@@ -8,7 +8,7 @@ export default class extends Controller {
   static values = { openKey: String}
 
   connect() {
-    console.log("Hello from our weather Stimulus controller")
+    // console.log("Hello from our weather Stimulus controller")
   };
 
   getWeather(event) {
