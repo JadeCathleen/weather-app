@@ -3,13 +3,13 @@
         <div class="col-sm-8">
           <h1 class="text-center mt-4">WeatherApp</h1>
           <form class="d-flex my-5">
-            <input type="text" placeholder="Enter city" class='form-control flex-grow-1' data-weather-target='form'>
-            <input type="submit" value="Get the weather" class="btn btn-primary ms-3"data-action="submit->weather#getWeather">
+            <input type="text" placeholder="Enter city" class='form-control flex-grow-1' data-weather-target='input'>
+            <input type="submit" value="Get the weather" class="btn btn-primary ms-3"data-action="click->weather#getWeather">
           </form>
           <div class="card mt-4 mb-5 invisible" data-weather-target='card'>
             <div class="card-body">
               <h1>Weather in <span data-weather-target="city"> <!-- CITY NAME --> </span></h1>
-              <h3 class="text-secondary"><%= Time.now.strftime('%a %d %b %Y at %k:%M') %></h3>
+              <h3 class="text-secondary" data-weather-target="date"><!-- DATE --></h3>
               <div>
                 <p data-weather-target="description"><!-- DESCRIPTION --></p>
                 <div class="d-flex">
