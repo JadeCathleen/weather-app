@@ -1,39 +1,42 @@
-    <div class="container" data-controller="weather" data-weather-mapbox-key-value="<%=ENV['MAPBOX_KEY']%>" data-weather-open-key-value="<%=ENV['OPEN_WEATHER_KEY']%>">
+<div data-controller="weather" data-weather-open-key-value="<%=ENV['OPEN_WEATHER_KEY']%>">
+  <div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=2000);">
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-8">
           <h1 class="text-center mt-4">WeatherApp</h1>
           <form class="d-flex my-5">
             <input type="text" placeholder="Enter city" class='form-control flex-grow-1' data-weather-target='input'>
-            <input type="submit" value="Get the weather" class="btn btn-primary ms-3"data-action="click->weather#getWeather">
+            <input type="submit" value="Get the weather" class="btn btn-primary ms-3" data-action="click->weather#getWeather">
           </form>
-          <div class="card mt-4 mb-5 invisible" data-weather-target='card'>
-            <div class="card-body">
-              <h1>Weather in <span data-weather-target="city"> <!-- CITY NAME --> </span></h1>
-              <h3 class="text-secondary" data-weather-target="date"><!-- DATE --></h3>
-              <div>
-                <p data-weather-target="description"><!-- DESCRIPTION --></p>
-                <div class="d-flex">
-                  <img src="" alt="Weather Icon" data-weather-target='icon'>
-                  <h2 data-weather-target="temperature"><!-- TEMPERATURE --></h2>
-                </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-8">
+        <div class="card mt-4 mb-5 invisible" data-weather-target='card'>
+          <div class="card-body">
+            <h1>Weather in <span data-weather-target="city"> <!-- CITY NAME --> </span></h1>
+            <h3 class="text-secondary" data-weather-target="date"><!-- DATE --></h3>
+            <div>
+              <p data-weather-target="description"><!-- DESCRIPTION --></p>
+              <div class="d-flex">
+                <img src="" alt="Weather Icon" data-weather-target='icon'>
+                <h2 data-weather-target="temperature"><!-- TEMPERATURE --></h2>
               </div>
-              <% if user_signed_in? %>
-                <button data-action="click->weather#selectCity" data-weather-target="addButton">
-                  Add this city to your dashboard
-                </button>
-              <% end %>
-              <div class="form-create-city invisible" data-weather-target='createForm'>
-                <%= simple_form_for(@city) do |f| %>
-                <div class="input-city">
-                  <%= f.input :name, input_html: { data: { target:'weather.add' } } %>
-                </div>
-                <div class="text-center mt-3">
-                  <%= f.submit 'Save', class: 'btn btn-flat' %>
-                </div>
-              </div>
-            <% end %>
             </div>
+            <% if !user_signed_in? %>
+              <p id='add-notice' data-weather-target='notice'></p>
+            <% end %>
+            <% if user_signed_in? %>
+              <button data-action="click->weather#selectCity" data-weather-target="addButton">
+                Add this city to your dashboard
+              </button>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

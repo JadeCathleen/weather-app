@@ -4,11 +4,11 @@ import { main } from "@popperjs/core";
 const baseWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?"
 
 export default class extends Controller {
-  static targets = ['input', 'city', 'date', 'description', 'temperature', 'icon', 'card']
+  static targets = ['input', 'city', 'date', 'description', 'temperature', 'icon', 'card', 'notice']
   static values = { openKey: String}
 
   connect() {
-    // console.log("Hello from our weather Stimulus controller")
+    console.log("Hello from our weather Stimulus controller")
   };
 
   getWeather(event) {
@@ -30,6 +30,7 @@ export default class extends Controller {
     const options = { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }; // set options for display of the date
     const formattedDate = localDate.toLocaleDateString("en-US", options); // format the date
     this.dateTarget.innerText = formattedDate // replace the text of date div by this format date
+    this.noticeTarget.innerHTML = "If you want to add this city to your dashboard, you need to be logged in"
     if (this.inputTarget.value !== "") {
       this.cardTarget.classList.remove("invisible"); // if there is something entered in form, the weather card will appear
     } else {
